@@ -11,7 +11,7 @@
 .mtj.tmp/
 
 # Intellij
-./build
+build/
 
 # Package Files #
 *.idea
