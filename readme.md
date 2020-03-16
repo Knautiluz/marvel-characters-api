@@ -47,4 +47,4 @@ No endpoint **/characters** os seguintes parametros de busca foram implementados
 7. limit
 8. offset
 
-Eu irei incluir o jar a ser executado na pasta /dextra/jar/ para que não seja ncessário instalar o gradle. Então é só acessar a pasta onde está o jar e executar java -jar *nome do jar*
+Eu irei incluir o jar a ser executado na pasta **/dextra/jar/** para caso ocorra algum problema na execução do Gradle. Então é só acessar a pasta onde está o jar e executar java -jar *nome-do-jar*
