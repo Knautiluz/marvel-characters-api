@@ -39,12 +39,10 @@ após essa configuração os endpoints implementados **/characters** e **/charac
 No endpoint **/characters** os seguintes parametros de busca foram implementados:
 
 1. name
-2. nameStartsWith
-3. modifiedSince
-4. nameStartsWith
-5. modifiedSince
-6. orderBy
-7. limit
-8. offset
+2. modifiedSince
+3. nameStartsWith
+4. orderBy (name, -name, modified, -modified)
+5. limit
+6. offset
 
 Eu irei incluir o jar a ser executado na pasta **/dextra/jar/** para caso ocorra algum problema na execução do Gradle. Então é só acessar a pasta onde está o jar e executar java -jar *nome-do-jar*
