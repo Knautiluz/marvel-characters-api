@@ -13,6 +13,9 @@
 # Intellij
 build/
 
+# Gradle
+.gradle
+
 # Package Files #
 *.idea
 *.war
