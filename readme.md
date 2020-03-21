@@ -2,7 +2,7 @@ Para compilar basta executar o **gradle clean build** *(linux)* ou **gradlew cle
 
 depois de compilar o projeto é necessário acessar build/libs/ e executar java -jar *nome do jar*
 
-Então o servidor vai subir e criar as tabelas necessárias, mas para criar os dados básicos para teste é necessário acessar o endpoint **/start** que vai gerar dois personagens suficientes para testar os filtros, caso seja necessário gerar mais personagens, basta acessar o endpoint **/new** *(post)* e enviar um json que será o personagem. Exemplo:
+Então o servidor vai subir e criar as tabelas necessárias, mas para criar os dados básicos para teste é necessário acessar o endpoint **/start** (post) que vai gerar dois personagens suficientes para testar os filtros, caso seja necessário gerar mais personagens, basta acessar o endpoint **/new** *(post)* e enviar um json que será o personagem. Exemplo:
 
 ```json
 {
