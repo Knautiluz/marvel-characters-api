@@ -6,30 +6,36 @@ import net.knautiluz.marvel.models.character.Character;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
+@SuppressWarnings("unused")
 @Entity
-@Builder(toBuilder = true)
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
+@EqualsAndHashCode
 public class SeriesList implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Builder
+    public SeriesList(int id, String collectionURI, Set<SeriesSummary> items) {
+        this.id = id;
+        this.collectionURI = collectionURI;
+        this.items = items;
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "series_list_seq")
     @JsonIgnore
     private int id;
 
-    /**
-     * @deprecated até encontrar uma forma de remove-lo do builder do lombok
-     */
-    @ManyToOne
+    @ManyToMany(mappedBy = "series")
     @JsonIgnore
-    @Deprecated
-    private Character character;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<Character> character;
 
     /**
      *  (int, optional): The number of total available series in this list. Will always be greater than or equal to the "returned" value.
@@ -41,6 +47,15 @@ public class SeriesList implements Serializable {
      */
     private int returned;
 
+
+    public int getAvailable() {
+        return this.items.size();
+    }
+
+    public int getReturned() {
+        return this.items.size();
+    }
+
     /**
      *  (string, optional): The path to the full list of series in this collection.
      */
@@ -51,6 +66,6 @@ public class SeriesList implements Serializable {
      */
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "series_list_id")
-    private List<SeriesSummary> items;
+    private Set<SeriesSummary> items;
 
 }

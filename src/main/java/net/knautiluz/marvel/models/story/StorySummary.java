@@ -7,27 +7,32 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Builder(toBuilder = true)
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
+@EqualsAndHashCode
 public class StorySummary implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Builder
+    public StorySummary(int id, String resourceURI, String name, String type) {
+        this.id = id;
+        this.resourceURI = resourceURI;
+        this.name = name;
+        this.type = type;
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "story_summary_seq")
     @JsonIgnore
     private int id;
 
-
-    /**
-     * @deprecated até encontrar uma forma de remove-lo do builder do lombok
-     */
     @ManyToOne
     @JsonIgnore
-    @Deprecated
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private StoryList storyList;
 
     /**
