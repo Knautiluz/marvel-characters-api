@@ -11,9 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @SuppressWarnings("unused")
 @RestController
@@ -24,30 +22,30 @@ public class DextraInitController {
 
     /** DATABASE INITIALIZATION **/
 
-    @GetMapping(path = "/start")
+    @PostMapping(path = "/start")
     @ResponseStatus(code = HttpStatus.OK)
     public void generateData() {
         /* oracle */
-        List<ComicSummary> oracleSummaries = new ArrayList<>();
+        Set<ComicSummary> oracleSummaries = new HashSet<>();
         oracleSummaries.add(createSummary("OracleDay", "OracleDay"));
         oracleSummaries.add(createSummary("OracleEnd", "OracleEnd"));
-        List<ComicList> oracleComics = new ArrayList<>();
+        Set<ComicList> oracleComics = new HashSet<>();
         oracleComics.add(createComicsList(oracleSummaries, 1000));
         Character oracle = createCharacters("Oracle", "Destroyer of Java", "Oracle", Date.from(Instant.ofEpochMilli(100001)), oracleComics);
-        List<Url> urlList = new ArrayList<>();
+        Set<Url> urlList = new HashSet<>();
         urlList.add(createUrl("wiki", "https://knautiluz.net/Oracle"));
         urlList.add(createUrl("comic", "https://knautiluz.net/OracleEnemies"));
         oracle.setUrls(urlList);
         repository.save(oracle);
 
         /* jakarta */
-        List<ComicSummary> jakartaSummaries = new ArrayList<>();
+        Set<ComicSummary> jakartaSummaries = new HashSet<>();
         jakartaSummaries.add(createSummary("Jakarta Kills Oracle", "JakartaMassacre"));
         jakartaSummaries.add(createSummary("Oracle Killed By Jakarta", "JakartaTriumph"));
-        List<ComicSummary> jakartaSummariesB = new ArrayList<>();
+        Set<ComicSummary> jakartaSummariesB = new HashSet<>();
         jakartaSummariesB.add(createSummary("Oracle Killed By Jakarta", "OracleDie"));
         jakartaSummariesB.add(createSummary("Oracle is fine in heaven.", "OracleRestInPiece"));
-        List<ComicList> jakartaComics = new ArrayList<>();
+        Set<ComicList> jakartaComics = new HashSet<>();
         jakartaComics.add(createComicsList(jakartaSummaries, 2000));
         oracleComics.add(createComicsList(jakartaSummariesB, 2000));
         Character jakarta = createCharacters("Jakarta", "Oracle Enemy", "Jakarta", Date.from(Instant.ofEpochMilli(200005)), jakartaComics);
@@ -62,7 +60,7 @@ public class DextraInitController {
         return Image.builder().extension(".png").path("https://knautiluz.net/images/characters/" + charName).build();
     }
 
-    private Character createCharacters(String charName, String charDescription, String charEndURI, Date modified, List<ComicList> characterComics) {
+    private Character createCharacters(String charName, String charDescription, String charEndURI, Date modified, Set<ComicList> characterComics) {
         return Character.builder()
                 .name(charName)
                 .description(charDescription)
@@ -72,7 +70,7 @@ public class DextraInitController {
                 .thumbnail(createThumbNail(charName)).build();
     }
 
-    private ComicList createComicsList(List<ComicSummary> summaries, int comicsID) {
+    private ComicList createComicsList(Set<ComicSummary> summaries, int comicsID) {
         return ComicList.builder()
                 .collectionURI("https://knautiluz.net/comics/" + comicsID)
                 .items(summaries).build();

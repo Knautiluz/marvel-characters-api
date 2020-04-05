@@ -6,15 +6,15 @@ import net.knautiluz.marvel.models.character.Character;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 @SuppressWarnings("unused")
 @Entity
-@Builder(toBuilder = true)
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
+@EqualsAndHashCode
 public class ComicList implements Serializable {
 
     //TODO CRIAR OU VERIFICAR NECESSIDADE DE CAMPO ÚNICO PARA MAPEAR A BUSCA DOS CHARACTERS NAS COMICS ONDE ELE APARECE "ENDPOINT/CHARACTERS"
@@ -22,17 +22,22 @@ public class ComicList implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comic_list_seq")
     @JsonIgnore
     private int id;
 
-    /**
-     * @deprecated até encontrar uma forma de remove-lo do builder do lombok
-     */
-    @ManyToOne
+    @Builder
+    public ComicList(int id, String collectionURI, Set<ComicSummary> items) {
+        this.id = id;
+        this.collectionURI = collectionURI;
+        this.items = items;
+    }
+
+    @ManyToMany(mappedBy = "comics")
     @JsonIgnore
-    @Deprecated
-    private Character character;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<Character> character;
 
     /**
      * (int, optional): The number of total available issues in this list. Will always be greater than or equal to the "returned" value.
@@ -66,6 +71,6 @@ public class ComicList implements Serializable {
      */
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "comic_id")
-    private List<ComicSummary> items;
+    private Set<ComicSummary> items;
 
 }

@@ -6,8 +6,17 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@Builder
 public class CharacterDataWrapper implements Serializable {
+
+    @Builder
+    public CharacterDataWrapper(int code, String status, String copyright, String attributionText, String attributionHTML, CharacterDataContainer data) {
+        this.code = code;
+        this.status = status;
+        this.copyright = copyright;
+        this.attributionText = attributionText;
+        this.attributionHTML = attributionHTML;
+        this.data = data;
+    }
 
     private static final long serialVersionUID = 1L;
 

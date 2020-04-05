@@ -7,26 +7,31 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Builder(toBuilder = true)
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
+@EqualsAndHashCode
 public class Image implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Builder
+    public Image(int id, String path, String extension) {
+        this.id = id;
+        this.path = path;
+        this.extension = extension;
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "image_seq")
     @JsonIgnore
     private int id;
 
-    /**
-     * @deprecated até encontrar uma forma de remove-lo do builder do lombok
-     */
-    @OneToOne
+    @OneToOne(mappedBy = "thumbnail")
     @JsonIgnore
-    @Deprecated
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Character character;
 
     /**

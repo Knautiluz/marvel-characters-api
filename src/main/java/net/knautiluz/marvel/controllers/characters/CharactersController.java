@@ -19,6 +19,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static net.knautiluz.marvel.matchers.CharacterMatchers.*;
+import static org.apache.tomcat.util.security.ConcurrentMessageDigest.digest;
+import static org.apache.tomcat.util.security.MD5Encoder.encode;
 
 @SuppressWarnings("unused")
 @RestController
@@ -79,16 +81,16 @@ public class CharactersController {
     }
 
     private CharacterDataWrapper buildCharacterDataContainer(CharacterDataContainer characterContainer) {
-       return CharacterDataWrapper.builder()
+        CharacterDataWrapper builder = CharacterDataWrapper.builder()
                 .code(200)
                 .status("OK")
                 .attributionText("Data provided by Jackson Jones. © 2020 Knautiluz")
                 .attributionHTML("<a href='http://marvel.com'>Data provided by Jackson Jones. © 2020 Knautiluz</a>")
                 .copyright("© 2020 Knautiluz")
-                //TODO CRIAR DIGEST DOS DADOS PARA O ETAG
-                .etag(Base64.getEncoder().encodeToString("Knautiluz".getBytes()))
                 .data(characterContainer)
                 .build();
+        builder.setEtag(encode(digest("MD5", builder.getData().toString().getBytes())));
+        return  builder;
     }
 
     private CharacterDataContainer buildCharacterDataContainer(List<Character> characters, String orderBy, Integer limit, Integer offset) {

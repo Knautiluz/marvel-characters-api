@@ -6,30 +6,36 @@ import net.knautiluz.marvel.models.character.Character;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
+@SuppressWarnings("unused")
 @Entity
-@Builder(toBuilder = true)
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
+@EqualsAndHashCode
 public class EventList implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Builder
+    public EventList(int id, String collectionURI, Set<EventSummary> items) {
+        this.id = id;
+        this.collectionURI = collectionURI;
+        this.items = items;
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "event_list_seq")
     @JsonIgnore
     private int id;
 
-    /**
-     * @deprecated até encontrar uma forma de remove-lo do builder do lombok
-     */
-    @ManyToOne
+    @ManyToMany(mappedBy = "events")
     @JsonIgnore
-    @Deprecated
-    private Character character;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<Character> character;
 
     /**
      * (int, optional): The number of total available events in this list. Will always be greater than or equal to the "returned" value.
@@ -41,6 +47,14 @@ public class EventList implements Serializable {
      */
     private int returned;
 
+    public int getAvailable() {
+        return this.items.size();
+    }
+
+    public int getReturned() {
+        return this.items.size();
+    }
+
     /**
      * (string, optional): The path to the full list of events in this collection.
      */
@@ -51,6 +65,6 @@ public class EventList implements Serializable {
      */
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "event_list_id")
-    private List<EventSummary> items;
+    private Set<EventSummary> items;
 
 }

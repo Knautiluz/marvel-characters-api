@@ -7,26 +7,32 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Builder(toBuilder = true)
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
+@EqualsAndHashCode
 public class EventSummary implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Builder
+    public EventSummary(int id, EventList eventList, String resourceURI, String name) {
+        this.id = id;
+        this.eventList = eventList;
+        this.resourceURI = resourceURI;
+        this.name = name;
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "event_summary_seq")
     @JsonIgnore
     private int id;
 
-    /**
-     * @deprecated até encontrar uma forma de remove-lo do builder do lombok
-     */
     @ManyToOne
     @JsonIgnore
-    @Deprecated
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private EventList eventList;
 
     /**

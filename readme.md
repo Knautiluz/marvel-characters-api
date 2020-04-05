@@ -1,8 +1,9 @@
-Para compilar basta executar o **gradle clean build** *(linux)* ou **gradlew clean build** *(windows)*
+Requerimentos: **Java-8**, **Gradle 6.2.2**, **Docker**
 
-depois de compilar o projeto é necessário acessar build/libs/ e executar java -jar *nome do jar*
+Depois de clonar o projeto, na raiz do **Dockerfile** fazer o build da imagem com o seguinte comando ``$ docker image build -t marvel-api .``
+Assim que a imagem for criada a partir do descritor, suba o container com o comando: ``$ docker container run -p 8080:8080 marvel-api``
 
-Então o servidor vai subir e criar as tabelas necessárias, mas para criar os dados básicos para teste é necessário acessar o endpoint **/start** que vai gerar dois personagens suficientes para testar os filtros, caso seja necessário gerar mais personagens, basta acessar o endpoint **/new** *(post)* e enviar um json que será o personagem. Exemplo:
+Então o servidor vai subir e criar as tabelas necessárias, mas para criar os dados básicos para teste é necessário acessar o endpoint **/start** (post) que vai gerar dois personagens suficientes para testar os filtros, caso seja necessário gerar mais personagens, basta acessar o endpoint **/new** *(post)* e enviar um json que será o personagem. Exemplo:
 
 ```json
 {
@@ -39,10 +40,10 @@ após essa configuração os endpoints implementados **/characters** e **/charac
 No endpoint **/characters** os seguintes parametros de busca foram implementados:
 
 1. name
-2. modifiedSince
-3. nameStartsWith
-4. orderBy (name, -name, modified, -modified)
-5. limit
-6. offset
-
-Eu irei incluir o jar a ser executado na pasta **/dextra/jar/** para caso ocorra algum problema na execução do Gradle. Então é só acessar a pasta onde está o jar e executar java -jar *nome-do-jar*
+2. nameStartsWith
+3. modifiedSince
+4. nameStartsWith
+5. modifiedSince
+6. orderBy
+7. limit
+8. offset
