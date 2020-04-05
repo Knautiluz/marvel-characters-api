@@ -1,7 +1,12 @@
 Requerimentos: **Java-8**, **Gradle 6.2.2**, **Docker**
 
-Depois de clonar o projeto, na raiz do **Dockerfile** fazer o build da imagem com o seguinte comando ``$ docker image build -t marvel-api .``
-Assim que a imagem for criada a partir do descritor, suba o container com o comando: ``$ docker container run -p 8080:8080 marvel-api``
+Depois de clonar o projeto, na raiz do **Dockerfile** fazer o build da imagem com o seguinte comando:
+
+    $ docker image build -t marvel-api .
+
+Assim que a imagem for criada a partir do descritor, suba o container com o comando:
+    
+    $ docker container run -p 8080:8080 marvel-api
 
 Então o servidor vai subir e criar as tabelas necessárias, mas para criar os dados básicos para teste é necessário acessar o endpoint **/start** (post) que vai gerar dois personagens suficientes para testar os filtros, caso seja necessário gerar mais personagens, basta acessar o endpoint **/new** *(post)* e enviar um json que será o personagem. Exemplo:
 
