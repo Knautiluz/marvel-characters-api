@@ -50,13 +50,14 @@ public class CharacterControllerTest {
     }
 
     @Test
-    public void givenCharacterPostWhenPostIsSuccessfullyThenShouldReturnRightStatus() throws Exception {
+    public void givenCharacterPostWhenPostIsSuccessfullyThenShouldReturnCreatedStatusAndLocationMustBeRight() throws Exception {
         Character character = Character.builder().id(1).name("Thanos").build();
         final String characterGson = new Gson().toJson(character);
         Mockito.when(mockedRepository.save(Mockito.any())).thenReturn(character);
         MvcResult result = simulatedRequest
                 .perform(post("/characters").contentType(MediaType.APPLICATION_JSON).content(characterGson))
                 .andExpect(status().isCreated()).andReturn();
+        Assertions.assertEquals("https://knautiluz-characters.herokuapp.com/characters/1", result.getResponse().getHeader("location"));
     }
 
     @Test
