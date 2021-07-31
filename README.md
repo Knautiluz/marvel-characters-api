@@ -1,4 +1,4 @@
-Requerimentos: **Java-8**, **Gradle 6.2.2**, **Docker**
+Requerimentos: `Docker || JAVA 8 && GRADLE 6.X.X`
 
 Depois de clonar o projeto, na raiz do **Dockerfile** fazer o build da imagem com o seguinte comando:
 
@@ -8,13 +8,14 @@ Assim que a imagem for criada a partir do descritor, suba o container com o coma
     
     $ docker container run -p 8080:8080 marvel-api
 
-Então o servidor vai subir e criar as tabelas necessárias, mas para criar os dados básicos para teste é necessário acessar o endpoint **/start** (post) que vai gerar dois personagens suficientes para testar os filtros, caso seja necessário gerar mais personagens, basta acessar o endpoint **/new** *(post)* e enviar um json que será o personagem. Exemplo:
+Então o servidor vai subir e criar as tabelas necessárias, mas para criar os dados básicos para teste é necessário acessar o endpoint `/characters/${characterID}` (post) e enviar um json que será o personagem.
+
+Exemplo:
 
 ```json
 {
   "name": "mysql",
   "description": "My fav database",
-  "modified": 1001564564,
   "resourceURI": "https://mysql.knautiluz.net",
   "urls": [{"type": "wiki", "url": "https://wiki.knautiluz.net"}],
   "thumbnail": {
@@ -34,21 +35,20 @@ Então o servidor vai subir e criar as tabelas necessárias, mas para criar os d
   ]
 }
 ```
+    {URL} = localhost:8080 || https://knautiluz-characters.herokuapp.com
+    [GET] [POST] {URL}/characters/
+    [GET] [PUT] [DELETE] {URL}/characters/{characterID}
 
-    localhost:8080/start
-    localhost:8080/new
-    localhost:8080/characters
-    localhost:8080/characters/{characterID}
+Após essa configuração os endpoints implementados `/characters` e `/characters/{characterId}` já estarão disponiveis.
 
-após essa configuração os endpoints implementados **/characters** e **/characters/{characterId}** já estarão disponiveis.
+Para o [heartbeat](https://pt.wikiqube.net/wiki/Heartbeat_(computing)) acesse o index path = `/`
 
-No endpoint **/characters** os seguintes parametros de busca foram implementados:
+No endpoint `/characters` os seguintes parametros de busca foram implementados:
 
-1. name
-2. nameStartsWith
-3. modifiedSince
-4. nameStartsWith
-5. modifiedSince
-6. orderBy
-7. limit
-8. offset
+```
+1. name { ex: '?name=Bakugo' }
+2. nameStartsWith { ex: '?nameStartsWith=Bak' }
+3. modifiedSince { ex: '?modifiedSince=30/08/1992' }
+4. orderBy { name || modified; ex: '?orderBy=name' for ASC '?orderBy=-name' for DESC }
+7. limit { result limit;  ex: '?limit=10' }
+8. offset { skip values; ex: '?offset=1' }

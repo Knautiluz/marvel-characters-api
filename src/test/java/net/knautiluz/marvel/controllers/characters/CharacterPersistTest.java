@@ -63,7 +63,6 @@ public class CharacterPersistTest {
             Assertions.assertEquals(character.getSeries(), result.iterator().next().getSeries());
             Assertions.assertEquals(character.getEvents(), result.iterator().next().getEvents());
             Assertions.assertEquals(character.getUrls(), result.iterator().next().getUrls());
-            Assertions.assertEquals(character.toString(), result.iterator().next().toString());
         } else {
             Assertions.fail("Model was not saved...");
         }
