@@ -1,3 +1,8 @@
+## Marvel Characters API
+
+#### Master
+[![Java CI with Gradle](https://github.com/Knautiluz/marvel-characters-api/actions/workflows/gradle.yml/badge.svg?branch=master)](https://github.com/Knautiluz/marvel-characters-api/actions/workflows/gradle.yml)
+
 Requerimentos: `Docker || JAVA 8 && GRADLE 6.X.X`
 
 Depois de clonar o projeto, na raiz do **Dockerfile** fazer o build da imagem com o seguinte comando:
